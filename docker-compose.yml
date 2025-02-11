@@ -6,7 +6,7 @@ services:
     build:
       dockerfile: ./containers/web/Dockerfile
       context: ./
-    command: gunicorn Zone3000.wsgi:application --bind 0.0.0.0:8000
+    command: sh -c "python3 manage.py test --keepdb && gunicorn Zone3000.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/api
     expose:

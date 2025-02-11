@@ -1,1 +1,4 @@
-Zone3000/local_conf.py.exemple
+Zone3000/local_conf.py
+__pycache__/
+*.pyc
+*.pyo

@@ -28,6 +28,7 @@ class RedirectRulesView(APIView):
             return error_bad_request(error=str(e))
 
     def post(self, request) -> Response:
+        request.data._mutable = True
         request.data["owner"] = request.user.id
         serializer = RedirectRuleCreateSerializer(data=request.data)
 
