@@ -1,0 +1,4 @@
+
+ALLOWED_HOSTS = ["*"]
+DEBUG = True
+CSRF_TRUSTED_ORIGINS = ["http://0.0.0.0:1763"]

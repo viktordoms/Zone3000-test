@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  api:
+    container_name: "api"
+    build:
+      dockerfile: ./containers/web/Dockerfile
+      context: ./
+    command: gunicorn Zone3000.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/api
+    expose:
+      - 8000
+    networks:
+      - app
+    depends_on:
+      - db
+    links:
+      - db
+    restart: always
+
+  db:
+    image: postgres:13
+    container_name: "db"
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: 'zone_3000_db'
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'password'
+    volumes:
+      - ./containers/db/data:/var/lib/mysql
+    networks:
+      - app
+
+  nginx:
+    container_name: "nginx"
+    build: ./containers/nginx
+    volumes:
+      - .:/api
+    ports:
+      - 1763:80
+    depends_on:
+      - api
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
